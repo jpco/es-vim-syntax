@@ -25,7 +25,7 @@ syn match esVar "\$\(\^\|&\|#\)\?\$*(\(\*\|[0-9a-zA-Z%*_-]\+\))" nextgroup=esSub
 syn match esSubscript "(\(\d\+\|\.\.\.\| \+\)*)" contains=esNumber,esVar contained
 
 syn region  esQuote start="'" end="'" contains=esQuoteChar
-syn match   esQuoteChar "''" contained
+syn match   esQuoteChar "''"
 syn match   esNumber "\<\d\+\>"
 
 syn match esOperator "[!&;|\^`]"
