@@ -9,7 +9,7 @@ Copy or symlink to `~/.vim/syntax/` and write a corresponding file:
 ```
 ~/.vim/ftdetect/es.vim:
 
-au BufRead,BufNewFIle *.es,.esrc setf es
+au BufRead,BufNewFIle *.es,.esrc set filetype=es
 ```
 
 as well as:
