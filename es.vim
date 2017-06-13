@@ -17,12 +17,16 @@ endif
 syn match   esComment "\v#.*$" contains=esTodo
 syn keyword esTodo TODO FIXME XXX NOTE contained
 
-" TODO do this correctly:
-"   ; echo $($a(1))
-syn match esVar "\$\(\^\|&\|#\)\?\$*\(\*\|[0-9a-zA-Z%*_-]\+\)" nextgroup=esSubscript,esDegen
-syn match esVar "\$\(\^\|&\|#\)\?\$*(\(\*\|[0-9a-zA-Z%*_-]\+\))" nextgroup=esSubscript,esDegen
-" syn match esDegen "(.\{-})" contained
-syn match esSubscript "(\(\d\+\|\.\.\.\| \+\)*)" contains=esNumber,esVar contained
+" THIS is some goofy nonsense
+" the regular kind of var
+syn match esVar "\$\(\^\|&\|#\)\?\$*\(\*\|[0-9a-zA-Z%*_-]\+\)" nextgroup=esSubscript
+" vars with parens, like $(x)
+syn match esVar "\$\(\^\|#\)\?(.\{-})"
+" vars in quotes, like $'x'
+syn match esVar "\$\(\^\|#\)\?'.\{-}'" nextgroup=esSubscript
+" vars with blocks, like ${x}, $`{x} $@ {x}
+syn match esVar "\$\(\^\|#\)\?{.\{-}}" contains=esVar
+syn match esSubscript "(.\{-})" contains=esNumber,esVar contained
 
 syn region  esQuote start="'" end="'" contains=esQuoteChar
 syn match   esQuoteChar "''"
@@ -38,28 +42,28 @@ syn keyword esDefaultFn access break catch echo exec forever fork if newpgrp res
 
 " defined as keywords or binders in parse.y
 syn keyword esKeyword local let for
-syn keyword esKeyword fn                    skipwhite nextgroup=esFnName
-" TODO fix 'fn-foo' highlighting
-syn match   esFnName  "[0-9a-zA-Z%*_-]\+"   contained
+syn keyword esKeyword fn                   skipwhite nextgroup=esFnName
+syn match   esFnName  "[0-9a-zA-Z%*_-]\+"  contained
 
 syn match esAssign "[0-9a-zA-Z%*_-]\+\s*=" contains=esIdent
 syn match esAssign "([0-9a-zA-Z%*_ -]\+)\s*=" contains=esMultident
 syn match esMultident "(\([0-9a-zA-Z%*_-]\+\|\s\)\+)" contained contains=esIdent
 syn match esIdent "[0-9a-zA-Z%*_-]\+" contained
 
+" TODO: improve these
+syn region esHereDoc start="<<\s*\z(\I\i*\)"ms=s+2 end="^\z1$" contains=esVar
+syn match esHereString "<<<\s*[\^0-9a-zA-Z!%*_-]*" contains=esVar,esQuote
+
 " TODO redirections
-" TODO operators
 " TODO backslash escape
-" TODO fn arguments, also macro defs
 " syn match esEscape "\\\(x\x\+\|\o\{1,3}\|.\|$\)"
  
 let b:current_syntax = "es"
 
 " main links
 hi def link esOperator      Operator
+hi def link esSubscript     Repeat
 hi def link esVar           PreProc
-" hi def link esSubscript     Repeat
-hi def link esDegen         Error
 hi def link esKeyword       Keyword
 hi def link esIdent         Identifier
 hi def link esFnName        Function
@@ -67,6 +71,8 @@ hi def link esDefaultFn     Keyword
 hi def link esTodo          Todo
 hi def link esComment       Comment
 hi def link esQuote         String
+hi def link esHereDoc       String
+hi def link esHereString    String
 hi def link esNumber        Number
 hi def link esQuoteChar     Special
 " hi def link esEscape SpecialChar
