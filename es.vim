@@ -38,7 +38,7 @@ syn match esOperator "[!&;|\^`]"
 syn region esFoldBraces start="{" end="}" transparent fold
 
 " many useful functions defined in initial.es
-syn keyword esDefaultFn access break catch echo exec forever fork if newpgrp result throw umask wait eval true false break exit return limit time var whatis while cd vars
+syn keyword esDefaultFn access break catch echo exec forever fork if newpgrp result throw umask wait eval true false break exit return limit time var whatis while cd vars match
 
 " defined as keywords or binders in parse.y
 syn keyword esKeyword local let for
