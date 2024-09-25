@@ -46,7 +46,7 @@ syn keyword esKeyword fn                   skipwhite nextgroup=esFnName
 syn match   esFnName  "[0-9a-zA-Z%*_-]\+"  contained
 
 syn match esAssign "[0-9a-zA-Z%*_-]\+\s*=" contains=esIdent
-syn match esAssign "([0-9a-zA-Z%*_ -]\+)\s*=" contains=esMultident
+syn match esAssign "([0-9a-zA-Z%*_ \t-]\+)\s*=" contains=esMultident
 syn match esMultident "(\([0-9a-zA-Z%*_-]\+\|\s\)\+)" contained contains=esIdent
 syn match esIdent "[0-9a-zA-Z%*_-]\+" contained
 
