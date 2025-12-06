@@ -51,7 +51,8 @@ syn match esMultident "(\([0-9a-zA-Z%*_-]\+\|\s\)\+)" contained contains=esIdent
 syn match esIdent "[0-9a-zA-Z%*_-]\+" contained
 
 " TODO: improve these
-syn region esHereDoc start="<<\s*\z(\I\i*\)"ms=s+2 end="^\z1$" contains=esVar
+syn region esHereDoc start="<<\s*\z([0-9a-zA-Z%*+_-]*\)"ms=s+2 end="^\z1$" contains=esVar
+syn region esHereDoc start="<<\s*'\z([0-9a-zA-Z%*+_ -]*\)'"ms=s+2 end="^\z1$"
 syn match esHereString "<<<\s*[\^0-9a-zA-Z!%*_-]*" contains=esVar,esQuote
 
 " TODO redirections
