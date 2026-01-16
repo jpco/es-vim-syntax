@@ -43,16 +43,16 @@ syn keyword esDefaultFn access break catch echo exec forever fork if newpgrp res
 " defined as keywords or binders in parse.y
 syn keyword esKeyword local let for
 syn keyword esKeyword fn                   skipwhite nextgroup=esFnName
-syn match   esFnName  "[0-9a-zA-Z%*_-]\+"  contained
+syn match   esFnName  "[0-9a-zA-Z%*_+:?-]\+"  contained
 
-syn match esAssign "[0-9a-zA-Z%*_-]\+\s*=" contains=esIdent
-syn match esAssign "([0-9a-zA-Z%*_ \t-]\+)\s*=" contains=esMultident
+syn match esAssign "[0-9a-zA-Z%*_:+?-]\+\s*=" contains=esIdent
+syn match esAssign "([0-9a-zA-Z%*:+?_ \t-]\+)\s*=" contains=esMultident
 syn match esMultident "(\([0-9a-zA-Z%*_-]\+\|\s\)\+)" contained contains=esIdent
-syn match esIdent "[0-9a-zA-Z%*_-]\+" contained
+syn match esIdent "[0-9a-zA-Z%*_+?-]\+" contained
 
 " TODO: improve these
-syn region esHereDoc start="<<\s*\z([0-9a-zA-Z%*+_-]*\)"ms=s+2 end="^\z1$" contains=esVar
-syn region esHereDoc start="<<\s*'\z([0-9a-zA-Z%*+_ -]*\)'"ms=s+2 end="^\z1$"
+syn region esHereDoc start="<<\s*\z([0-9a-zA-Z%*_-]*\)"ms=s+2 end="^\z1$" contains=esVar
+syn region esHereDoc start="<<\s*'\z([0-9a-zA-Z%*_ -]*\)'"ms=s+2 end="^\z1$"
 syn match esHereString "<<<\s*[\^0-9a-zA-Z!%*_-]*" contains=esVar,esQuote
 
 " TODO redirections
