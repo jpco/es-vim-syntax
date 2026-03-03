@@ -28,7 +28,9 @@ syn match esVar "\$\(\^\|#\)\?'.\{-}'" nextgroup=esSubscript
 syn match esVar "\$\(\^\|#\)\?{.\{-}}" contains=esVar
 syn match esSubscript "(.\{-})" contains=esNumber,esVar contained
 
-syn region  esQuote start="'" end="'" contains=esQuoteChar
+" anything linked to "String" should contain "string" (case insensitive) as a
+" subscript so that searchpair() actually knows to skip it.  Kinda braindead.
+syn region  esQuoteString start="'" end="'" contains=esQuoteChar
 syn match   esQuoteChar "''"
 syn match   esNumber "\<\d\+\>"
 
@@ -51,14 +53,14 @@ syn match esMultident "(\([0-9a-zA-Z%*_-]\+\|\s\)\+)" contained contains=esIdent
 syn match esIdent "[0-9a-zA-Z%*_+?-]\+" contained
 
 " TODO: improve these
-syn region esHereDoc start="<<\s*\z([0-9a-zA-Z%*_-]*\)"ms=s+2 end="^\z1$" contains=esVar
-syn region esHereDoc start="<<\s*'\z([0-9a-zA-Z%*_ -]*\)'"ms=s+2 end="^\z1$"
-syn match esHereString "<<<\s*[\^0-9a-zA-Z!%*_-]*" contains=esVar,esQuote
+syn region esHereDocString start="<<\s*\z([0-9a-zA-Z%*_-]*\)"ms=s+2 end="^\z1$" contains=esVar
+syn region esHereDocString start="<<\s*'\z([0-9a-zA-Z%*_ -]*\)'"ms=s+2 end="^\z1$"
+syn match esHereString "<<<\s*[\^0-9a-zA-Z!%*_-]*" contains=esVar,esQuoteString
 
 " TODO redirections
 " TODO backslash escape
 " syn match esEscape "\\\(x\x\+\|\o\{1,3}\|.\|$\)"
- 
+
 let b:current_syntax = "es"
 
 " main links
@@ -71,8 +73,8 @@ hi def link esFnName        Function
 hi def link esDefaultFn     Keyword
 hi def link esTodo          Todo
 hi def link esComment       Comment
-hi def link esQuote         String
-hi def link esHereDoc       String
+hi def link esQuoteString   String
+hi def link esHereDocString String
 hi def link esHereString    String
 hi def link esNumber        Number
 hi def link esQuoteChar     Special
